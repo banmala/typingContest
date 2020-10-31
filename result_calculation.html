@@ -5,18 +5,19 @@
 	<meta charset="UTF-8">
 </head>
 <body>
-	<div id="main"></div>
+	<div id="main" onCopy="return false"></div>
 	<div>
     <input type="text"
            id="submitted"
-           onkeyup="myFunction()" value=""> 
+           onkeyup ="myFunction()" value=""
+           onPaste="return false"> 
     <div id="demo"></div> 
 	</div>
 	<script type="text/javascript">
 
 		function levenshtein(a, b,ratio_calc ="False") {
-		  	if(a.length === 0) return b.length;
-		  	if(b.length === 0) return a.length;
+		  	// if(a.length === 0) return b.length;
+		  	// if(b.length === 0) return a.length;
 
 		  	var matrix = [];
 
@@ -42,10 +43,12 @@
 		                                Math.min(matrix[i][j-1] + 1, // insertion
 		                                         matrix[i-1][j] + 1)); // deletion
 		      		}
+		      		console.log(matrix);
 		    	}
 		  	}
 		  	if(ratio_calc=="True"){
 		  		var Ratio=((a.length+b.length)-matrix[b.length][a.length]) / (a.length+b.length);
+		  		// console.log(Ratio);
 		  		return Ratio;
 		  	}else{
 		  		return matrix[b.length][a.length];
@@ -53,11 +56,11 @@
 		}
 
 		function myFunction() { 
-	        var subm = document.getElementById("submitted").value; 
+	        var subm = document.getElementById("submitted").value;
 	        score=checkCheating(score,subm.length);
-	        document.getElementById("demo").innerHTML = levenshtein(text,subm,"True") * 100 + "%";
+	        document.getElementById("demo").innerHTML = parseFloat(levenshtein(text,subm,"True")).toFixed(4) * 100 + "%";
 	        if (score==0) {
-	        	document.getElementById("demo").innerHTML = "Disqualified";
+	        	document.getElementById("demo").innerHTML = "Sorry You have to start from beginning";
 	        }
 		} 
 		function checkCheating(previousCharCount, currentCharCount){
@@ -68,7 +71,7 @@
 		}
 		score = 0;
 		document.getElementById('submitted').value = "";
-		let text="Apple Inc.";
+		let text="Banana";
 		document.getElementById('main').innerHTML += text;
 	</script>
 </body>
